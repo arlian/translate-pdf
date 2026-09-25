@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>translate-pdf</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%2316262F'/%3E%3Cpath d='M7 5.5h7l4 4V18a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V6.5a1 1 0 0 1 1-1z' fill='none' stroke='%23D9A441' stroke-width='1.5'/%3E%3Cpath d='M9.5 13.5h5M9.5 16h3' stroke='%232FA795' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&display=swap">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<header class="rail">
+  <div class="brand">
+    <svg viewBox="0 0 24 24" aria-hidden="true" width="19" height="19">
+      <path d="M7 4.5h7l4 4V18.5a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V5.5a1 1 0 0 1 1-1z"
+            fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M13.8 4.6v4.2h4.1" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M9.3 13.4h5.4M9.3 16h3.2" stroke="#2FA795" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <span>translate-pdf</span>
+  </div>
+
+  <label class="open-button">
+    Buka PDF
+    <input type="file" id="file" accept="application/pdf,.pdf" hidden>
+  </label>
+
+  <span class="docname" id="docname" hidden></span>
+  <button type="button" class="ghost" id="home" hidden>Dokumen lain</button>
+
+  <span class="spacer"></span>
+
+  <div class="zoom" id="zoom-controls" hidden>
+    <button type="button" data-zoom="-1" aria-label="Perkecil">−</button>
+    <span id="zoom-label">100%</span>
+    <button type="button" data-zoom="1" aria-label="Perbesar">+</button>
+    <span class="pagecount" id="pagecount"></span>
+  </div>
+
+  <div class="controls">
+    <label>Ke
+      <select id="target"></select>
+    </label>
+    <label>Dari
+      <select id="source"></select>
+    </label>
+    <label>Email
+      <input id="email" type="email" inputmode="email" spellcheck="false" autocomplete="email"
+             placeholder="menaikkan kuota"
+             title="Dikirim langsung dari browser ini ke MyMemory, dan disimpan hanya di perangkatmu. Tanpa email: 5.000 karakter/hari. Dengan email: 50.000.">
+    </label>
+  </div>
+</header>
+
+<main id="stage">
+  <section class="start" id="start">
+    <h1>Sorot kalimatnya di PDF, terjemahannya muncul di situ juga.</h1>
+    <p class="lede">Semuanya berjalan di browser ini. Berkas PDF-mu tidak diunggah ke mana pun —
+      tidak ada server yang menerimanya — dan terjemahan diminta langsung ke MyMemory dari
+      perangkatmu sendiri.</p>
+
+    <div class="dropzone" id="dropzone">
+      <p><strong>Jatuhkan PDF ke sini</strong>, atau tekan <em>Buka PDF</em> di atas.</p>
+      <p class="dropzone-note">Berkasnya dibaca di tempat, tidak dikirim ke mana pun.</p>
+    </div>
+
+    <form class="fetcher" id="fetcher">
+      <label for="url">Atau tempel alamat PDF</label>
+      <div class="fetcher-row">
+        <input id="url" type="url" spellcheck="false" autocomplete="off"
+               placeholder="https://arxiv.org/pdf/1706.03762">
+        <button type="submit">Muat</button>
+      </div>
+      <p class="fetcher-note">Tanpa server perantara, alamat hanya bisa dimuat kalau situsnya
+        mengizinkan pengambilan lintas-situs. arXiv mengizinkan; banyak situs jurnal tidak —
+        untuk yang begitu, unduh dulu berkasnya lalu buka dari perangkat.</p>
+      <div class="samples">
+        <span>Contoh:</span>
+        <button type="button" data-url="https://arxiv.org/pdf/1706.03762">Attention Is All You Need</button>
+        <button type="button" data-url="https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf">Trace-based JIT</button>
+      </div>
+    </form>
+
+    <div class="demo">
+      <p class="demo-hint">Coba dulu tanpa membuka berkas: sorot satu kalimat di bawah.</p>
+      <p class="demo-text">Reading in a second language is slower because your eyes keep stopping
+        at words the rest of the sentence already explained. A translation that arrives where you
+        are looking costs you less than one that lives in another tab.</p>
+    </div>
+
+    <p class="quota" id="quota-note">Kuota MyMemory tanpa email: 5.000 karakter sehari untuk satu
+      alamat IP. Isi kolom <strong>Email</strong> di kanan atas dan jatahnya jadi 50.000 —
+      alamatnya disimpan di browser ini saja.</p>
+  </section>
+
+  <div id="pages" hidden></div>
+</main>
+
+<div class="drop-veil" id="drop-veil" hidden><span>Lepaskan PDF-nya</span></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="js/translate.js"></script>
+<script src="js/tooltip.js"></script>
+<script src="js/viewer.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

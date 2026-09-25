@@ -1,0 +1,413 @@
+:root {
+  --rail: #16262F;
+  --rail-field: #0F1D24;
+  --rail-edge: #2E4753;
+  --paper: #F1F3F2;
+  --desk: #0E1A21;
+  --ink: #11202A;
+  --muted: #5A7381;
+  --line: #D6DCDA;
+  --accent: #0E7C6B;
+  --accent-bright: #2FA795;
+  --brass: #D9A441;
+  --sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+}
+
+* { box-sizing: border-box; }
+
+/* Beberapa kelas di bawah memasang display sendiri, yang mengalahkan aturan bawaan
+   untuk atribut hidden — tanpa baris ini, elemen "tersembunyi" tetap menghalangi klik. */
+[hidden] { display: none !important; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ------------------------------------------------------------------ rail */
+
+.rail {
+  display: flex;
+  align-items: center;
+  gap: .75rem 1.1rem;
+  flex-wrap: wrap;
+  padding: .55rem 1.1rem;
+  background: var(--rail);
+  color: #DCE6E4;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, .35);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .95rem;
+  font-weight: 500;
+  color: #F0F5F3;
+}
+
+.brand svg { color: var(--brass); flex: none; }
+
+.spacer { flex: 1; }
+
+.open-button {
+  font-size: .85rem;
+  font-weight: 500;
+  color: #04231F;
+  background: var(--accent-bright);
+  border-radius: 3px;
+  padding: .42rem .9rem;
+  cursor: pointer;
+}
+
+.open-button:hover { background: #3CBCA8; }
+
+.open-button:focus-within { outline: 2px solid var(--brass); outline-offset: 2px; }
+
+.docname {
+  font-size: .8rem;
+  color: #9DB2B9;
+  max-width: 16rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.zoom {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .78rem;
+  color: #9DB2B9;
+}
+
+.zoom button,
+.controls select,
+.controls input {
+  font: inherit;
+  font-size: .82rem;
+  color: #E4ECEA;
+  background: var(--rail-field);
+  border: 1px solid var(--rail-edge);
+  border-radius: 3px;
+  padding: .22rem .45rem;
+  cursor: pointer;
+}
+
+.zoom button { min-width: 1.7rem; }
+.zoom button:hover { border-color: #47707F; }
+.zoom #zoom-label { min-width: 2.8rem; text-align: center; }
+.pagecount { margin-left: .5rem; }
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  flex-wrap: wrap;
+  font-size: .78rem;
+  color: #9DB2B9;
+}
+
+.controls label { display: flex; align-items: center; gap: .35rem; }
+.controls select { cursor: pointer; }
+
+.controls input {
+  cursor: text;
+  width: 10.5rem;
+  padding: .28rem .45rem;
+}
+
+.controls input::placeholder { color: #6D8794; }
+
+.controls select:focus-visible,
+.controls input:focus-visible,
+.zoom button:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 1px;
+}
+
+/* ----------------------------------------------------------------- stage */
+
+#stage { flex: 1; display: flex; min-height: 0; }
+
+.start {
+  flex: 1;
+  overflow-y: auto;
+  padding: clamp(2rem, 6vh, 4rem) 1.5rem 4rem;
+}
+
+.start > * { max-width: 34rem; margin-inline: auto; }
+
+.start h1 {
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+  font-weight: 400;
+  line-height: 1.22;
+  margin: 0 auto .9rem;
+}
+
+.lede {
+  margin: 0 auto 2rem;
+  color: var(--muted);
+  font-size: .95rem;
+  line-height: 1.65;
+}
+
+.dropzone {
+  border: 1px dashed #B9C4C1;
+  border-radius: 3px;
+  background: #fff;
+  padding: 1.6rem 1.4rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.dropzone p { margin: 0; font-size: .92rem; line-height: 1.6; }
+.dropzone strong { font-weight: 500; }
+.dropzone em { font-style: normal; color: var(--accent); }
+.dropzone-note { margin-top: .5rem !important; font-size: .82rem; color: var(--muted); }
+
+.linky {
+  font: inherit;
+  font-size: inherit;
+  color: var(--accent);
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(14, 124, 107, .4);
+  padding: 0;
+  cursor: pointer;
+}
+
+.linky:hover { border-bottom-color: var(--accent); }
+
+.ghost {
+  font: inherit;
+  font-size: .78rem;
+  color: #A9C0C6;
+  background: transparent;
+  border: 1px solid var(--rail-edge);
+  border-radius: 3px;
+  padding: .22rem .6rem;
+  cursor: pointer;
+}
+
+.ghost:hover { color: #F0F5F3; border-color: #47707F; }
+
+.fetcher { margin-bottom: 2rem; }
+
+.fetcher > label {
+  display: block;
+  font-size: .8rem;
+  color: var(--muted);
+  margin-bottom: .4rem;
+}
+
+.fetcher-row { display: flex; gap: .4rem; }
+
+.fetcher-row input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  font-size: .88rem;
+  padding: .45rem .6rem;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+}
+
+.fetcher-row input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.fetcher-row button {
+  font: inherit;
+  font-size: .87rem;
+  font-weight: 500;
+  color: #04231F;
+  background: var(--accent-bright);
+  border: none;
+  border-radius: 3px;
+  padding: .45rem 1rem;
+  cursor: pointer;
+}
+
+.fetcher-row button:hover { background: #3CBCA8; }
+
+.fetcher-note {
+  margin: .55rem 0 .8rem;
+  font-size: .8rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.samples {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  flex-wrap: wrap;
+  font-size: .8rem;
+  color: var(--muted);
+}
+
+.samples button {
+  font: inherit;
+  font-size: .8rem;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: .26rem .75rem;
+  cursor: pointer;
+}
+
+.samples button:hover { border-color: var(--accent); color: var(--accent); }
+
+.loading-note {
+  margin: 0 auto 1.5rem;
+  font-size: .85rem;
+  color: var(--accent);
+}
+
+.fetch-error {
+  margin: 0 auto 1.5rem;
+  padding: .75rem .9rem;
+  font-size: .85rem;
+  line-height: 1.6;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--brass);
+  border-radius: 2px;
+}
+
+.fetch-error a { color: var(--accent); }
+
+.demo {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 2px;
+  padding: 1rem 1.2rem 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.demo-hint { margin: 0 0 .55rem; font-size: .76rem; color: var(--accent); }
+.demo-text { margin: 0; font-family: var(--serif); font-size: 1.02rem; line-height: 1.75; }
+
+.quota {
+  margin: 0 auto;
+  padding: .75rem .9rem;
+  font-size: .82rem;
+  line-height: 1.6;
+  color: var(--muted);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--brass);
+  border-radius: 2px;
+}
+
+.quota strong { color: var(--ink); font-weight: 500; }
+
+/* ---------------------------------------------------------------- halaman */
+
+#pages {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem .75rem 3rem;
+  background: var(--desk);
+}
+
+.page {
+  position: relative;
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .45);
+}
+
+.page canvas { display: block; }
+
+.page.pending {
+  display: grid;
+  place-items: center;
+  color: #6D8794;
+  font-size: .8rem;
+  background: #16262F;
+}
+
+/* Lapisan teks PDF.js: tak terlihat, tapi inilah yang bisa disorot. */
+.textLayer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  line-height: 1;
+  text-size-adjust: none;
+  forced-color-adjust: none;
+  transform-origin: 0 0;
+}
+
+.textLayer span,
+.textLayer br {
+  position: absolute;
+  white-space: pre;
+  color: transparent;
+  cursor: text;
+  transform-origin: 0% 0%;
+}
+
+.textLayer ::selection { background: rgba(14, 124, 107, .35); }
+
+.doc-note {
+  max-width: 32rem;
+  margin: 3rem auto;
+  padding-left: 1.2rem;
+  border-left: 3px solid var(--brass);
+  color: #A9C0C6;
+  font-size: .9rem;
+  line-height: 1.6;
+}
+
+.doc-note h2 {
+  margin: 0 0 .5rem;
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: #EFF4F2;
+}
+
+.doc-note a { color: var(--brass); }
+
+/* ------------------------------------------------------------------- drop */
+
+.drop-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  background: rgba(14, 26, 33, .84);
+  color: #F0F5F3;
+  font-size: 1.05rem;
+}
+
+.drop-veil span {
+  padding: 2rem 3rem;
+  border: 2px dashed var(--brass);
+  border-radius: 4px;
+}
+
+@media (max-width: 760px) {
+  .brand span { display: none; }
+  .docname { max-width: 8rem; }
+  .controls { font-size: .74rem; gap: .55rem; }
+  .controls input { width: 8rem; }
+}
