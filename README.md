@@ -4,6 +4,10 @@ Buka PDF, sorot kata atau kalimatnya, terjemahannya muncul di tempat kamu meliha
 Seluruhnya berjalan di browser: tidak ada backend, tidak ada Python, tidak ada berkas
 yang diunggah ke mana pun.
 
+## Demo
+
+Coba versi online di: https://translate-pdf.gutamaarlian.workers.dev
+
 ## Menjalankan
 
 Klik ganda `index.html`. Itu saja — `file://` sudah cukup, dan sudah diuji bekerja penuh
