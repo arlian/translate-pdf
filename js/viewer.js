@@ -11,7 +11,16 @@
     var doc = null;
     var slots = [];
     var observer = null;
-    var scale = BASE_SCALE;
+    var zoom = 1;
+    var containerWidth = 0;
+
+    function viewportFor(page) {
+      var style = global.getComputedStyle(container);
+      var width = container.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+      var natural = page.getViewport({ scale: 1 });
+      var fit = Math.min(BASE_SCALE, Math.max(1, width) / natural.width);
+      return page.getViewport({ scale: fit * zoom });
+    }
 
     function note(title, detail, link) {
       container.innerHTML = "";
@@ -42,7 +51,7 @@
       slot.drawn = true;
 
       return doc.getPage(index + 1).then(function (page) {
-        var viewport = page.getViewport({ scale: scale });
+        var viewport = viewportFor(page);
         var ratio = global.devicePixelRatio || 1;
         var holder = slot.node;
 
@@ -61,7 +70,7 @@
         var layer = document.createElement("div");
         layer.className = "textLayer";
         // PDF.js memposisikan tiap potongan teks lewat variabel ini.
-        layer.style.setProperty("--scale-factor", String(scale));
+        layer.style.setProperty("--scale-factor", String(viewport.scale));
         holder.appendChild(layer);
 
         return page.render({
@@ -98,7 +107,7 @@
       container.innerHTML = "";
       slots = [];
       return doc.getPage(1).then(function (first) {
-        var viewport = first.getViewport({ scale: scale });
+        var viewport = viewportFor(first);
         for (var i = 0; i < doc.numPages; i++) {
           var node = document.createElement("div");
           node.className = "page pending";
@@ -109,7 +118,7 @@
           container.appendChild(node);
           slots.push({ node: node, drawn: false });
         }
-        ui.onZoom(Math.round((scale / BASE_SCALE) * 100));
+        ui.onZoom(Math.round(zoom * 100));
         watch();
         return drawPage(0);
       });
@@ -133,6 +142,14 @@
       });
     }
 
+    var resizeObserver = new ResizeObserver(function () {
+      var width = container.clientWidth;
+      if (!width || width === containerWidth) return;
+      containerWidth = width;
+      if (doc && !container.hidden) layout();
+    });
+    resizeObserver.observe(container);
+
     return {
       open: function (source, link) {
         if (!lib) {
@@ -143,6 +160,8 @@
         return lib.getDocument(source).promise
           .then(function (pdf) {
             doc = pdf;
+            zoom = 1;
+            containerWidth = container.clientWidth;
             ui.onPages(pdf.numPages);
             return layout();
           })
@@ -168,9 +187,9 @@
       },
       zoom: function (step) {
         if (!doc) return;
-        var next = Math.min(3.2, Math.max(0.6, scale + step * 0.25));
-        if (next === scale) return;
-        scale = next;
+        var next = Math.min(2.5, Math.max(0.5, zoom + step * 0.25));
+        if (next === zoom) return;
+        zoom = next;
         layout();
       }
     };

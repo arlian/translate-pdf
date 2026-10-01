@@ -24,6 +24,7 @@ html, body { height: 100%; }
 
 body {
   margin: 0;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   background: var(--paper);
@@ -36,6 +37,7 @@ body {
 
 .rail {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   gap: .75rem 1.1rem;
   flex-wrap: wrap;
@@ -136,10 +138,11 @@ body {
 
 /* ----------------------------------------------------------------- stage */
 
-#stage { flex: 1; display: flex; min-height: 0; }
+#stage { flex: 1; display: flex; min-height: 0; min-width: 0; }
 
 .start {
   flex: 1;
+  min-width: 0;
   overflow-y: auto;
   padding: clamp(2rem, 6vh, 4rem) 1.5rem 4rem;
 }
@@ -319,10 +322,12 @@ body {
 
 #pages {
   flex: 1;
-  overflow-y: auto;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: scroll;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 1rem;
   padding: 1rem .75rem 3rem;
   background: var(--desk);
@@ -330,6 +335,8 @@ body {
 
 .page {
   position: relative;
+  flex: none;
+  margin-inline: auto;
   background: #fff;
   box-shadow: 0 6px 20px rgba(0, 0, 0, .45);
 }
@@ -407,7 +414,24 @@ body {
 
 @media (max-width: 760px) {
   .brand span { display: none; }
+  .rail { gap: .6rem; padding: .55rem .75rem; }
   .docname { max-width: 8rem; }
-  .controls { font-size: .74rem; gap: .55rem; }
-  .controls input { width: 8rem; }
+  .controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    gap: .55rem;
+  }
+  .controls label { min-width: 0; }
+  .controls label:last-child { grid-column: 1 / -1; }
+  .controls select, .controls input {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    font-size: 1rem;
+    min-height: 2.25rem;
+  }
+  .fetcher-row input { font-size: 1rem; }
+  .start { padding: 1.5rem 1rem 2rem; }
+  .start h1 { font-size: 1.6rem; }
 }
