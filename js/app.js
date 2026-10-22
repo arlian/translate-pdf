@@ -120,6 +120,9 @@
     // Dibaca sebagai data mentah di memori: tidak ada unggahan, tidak ada jejak di server.
     file.arrayBuffer().then(function (buffer) {
       return viewer.open({ data: new Uint8Array(buffer) });
+    }).catch(function () {
+      showStart();
+      tooltip.flash("PDF itu tidak bisa dibaca.");
     });
   }
 
