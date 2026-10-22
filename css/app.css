@@ -435,3 +435,7 @@ body {
   .start { padding: 1.5rem 1rem 2rem; }
   .start h1 { font-size: 1.6rem; }
 }
+
+.ghost:focus-visible,
+.fetcher-row button:focus-visible,
+.samples button:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
