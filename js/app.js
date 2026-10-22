@@ -180,7 +180,8 @@
 
   // Alamat di hash: bisa ditautkan, mis. index.html#https://arxiv.org/pdf/1706.03762
   function fromHash() {
-    return location.hash.length > 1 ? decodeURIComponent(location.hash.slice(1)) : "";
+    if (location.hash.length <= 1) return "";
+    try { return decodeURIComponent(location.hash.slice(1)); } catch (err) { return ""; }
   }
   if (fromHash()) {
     urlInput.value = fromHash();
