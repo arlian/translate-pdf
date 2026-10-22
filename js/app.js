@@ -78,6 +78,13 @@
     button.addEventListener("click", function () { viewer.zoom(Number(button.dataset.zoom)); });
   });
 
+  global.addEventListener("keydown", function (event) {
+    if (pages.hidden || event.ctrlKey || event.metaKey || event.altKey) return;
+    if (/^(input|select|textarea)$/i.test(event.target.tagName)) return;
+    if (event.key === "+" || event.key === "=") viewer.zoom(1);
+    else if (event.key === "-") viewer.zoom(-1);
+  });
+
   function showReader(name) {
     tooltip.hide();
     start.hidden = true;
