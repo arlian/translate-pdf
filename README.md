@@ -16,6 +16,14 @@ di Chrome: PDF terbaca, tooltip jalan, pengaturan tersimpan.
 Kalau mau ditaruh online, salin isi folder ini ke hosting statis apa pun (GitHub Pages,
 Netlify, Cloudflare Pages). Tidak ada yang perlu dikonfigurasi.
 
+## Pintasan
+
+| Tombol | Fungsi |
+| --- | --- |
+| `Ctrl`/`Cmd` + `O` | Buka berkas PDF |
+| `+` / `-` | Perbesar / perkecil halaman |
+| `Esc` | Tutup kartu terjemahan |
+
 ## Isi
 
 | Berkas | Tugas |
