@@ -128,6 +128,13 @@
     fileInput.value = "";
   });
 
+  global.addEventListener("keydown", function (event) {
+    if ((event.ctrlKey || event.metaKey) && !event.altKey && event.key.toLowerCase() === "o") {
+      event.preventDefault();
+      fileInput.click();
+    }
+  });
+
   // --------------------------------------------------- memuat lewat alamat
 
   function tellFetchFailed(url) {
