@@ -25,6 +25,7 @@ Netlify, Cloudflare Pages). Tidak ada yang perlu dikonfigurasi.
 | `0` | Kembalikan zoom ke 100% |
 | `H` | Kembali ke layar awal (pilih dokumen lain) |
 | `Home` | Ke halaman pertama PDF |
+| `End` | Ke halaman terakhir PDF |
 | `Esc` | Tutup kartu terjemahan |
 
 ## Isi
