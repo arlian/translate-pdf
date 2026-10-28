@@ -79,7 +79,14 @@
   });
 
   global.addEventListener("keydown", function (event) {
-    if (pages.hidden || event.ctrlKey || event.metaKey || event.altKey) return;
+    if (pages.hidden || event.altKey) return;
+    if (event.ctrlKey || event.metaKey) {
+      if (event.key === "0") {
+        event.preventDefault();
+        viewer.reset();
+      }
+      return;
+    }
     if (/^(input|select|textarea)$/i.test(event.target.tagName)) return;
     if (event.key === "+" || event.key === "=") viewer.zoom(1);
     else if (event.key === "-") viewer.zoom(-1);
