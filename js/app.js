@@ -83,6 +83,7 @@
     if (/^(input|select|textarea)$/i.test(event.target.tagName)) return;
     if (event.key === "+" || event.key === "=") viewer.zoom(1);
     else if (event.key === "-") viewer.zoom(-1);
+    else if (event.key === "0") viewer.reset();
   });
 
   function showReader(name) {

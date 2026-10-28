@@ -22,6 +22,7 @@ Netlify, Cloudflare Pages). Tidak ada yang perlu dikonfigurasi.
 | --- | --- |
 | `Ctrl`/`Cmd` + `O` | Buka berkas PDF |
 | `+` / `-` | Perbesar / perkecil halaman |
+| `0` | Kembalikan zoom ke 100% |
 | `Esc` | Tutup kartu terjemahan |
 
 ## Isi

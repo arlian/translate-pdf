@@ -191,6 +191,11 @@
         if (next === zoom) return;
         zoom = next;
         layout();
+      },
+      reset: function () {
+        if (!doc || zoom === 1) return;
+        zoom = 1;
+        layout();
       }
     };
   }
