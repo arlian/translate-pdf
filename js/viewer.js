@@ -192,6 +192,11 @@
         zoom = next;
         layout();
       },
+      goToPage: function (pageNumber) {
+        if (!doc || !Number.isFinite(pageNumber)) return;
+        var index = Math.max(0, Math.min(doc.numPages - 1, Math.floor(pageNumber) - 1));
+        slots[index].node.scrollIntoView({ block: "start", behavior: "smooth" });
+      },
       reset: function () {
         if (!doc || zoom === 1) return;
         zoom = 1;
