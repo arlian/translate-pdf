@@ -466,9 +466,12 @@ body {
   }
   .page {
     margin: 0 auto;
+    max-width: 100%;
+    height: auto !important;
     box-shadow: none;
-    break-after: page;
   }
+  .page:not(:last-child) { break-after: page; }
+  .page canvas { width: 100% !important; height: auto !important; }
   .textLayer { visibility: hidden; }
   .doc-note { display: none; }
 }

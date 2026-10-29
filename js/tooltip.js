@@ -38,6 +38,8 @@
     "  border: 1px solid #2E4753; border-radius: 3px; padding: .12rem .45rem; cursor: pointer; }",
     ".meta button:hover { color: #F4F8F6; border-color: #47707F; }",
     ".meta button:focus-visible, .out:focus-visible { outline: 2px solid #D9A441; outline-offset: 1px; }",
+    '.meta button[data-act="copy-source"] { display: none; }',
+    '.card[data-state="ready"] [data-act="copy-source"] { display: inline-block; }',
     '.card[data-state="loading"] .out, .card[data-state="loading"] .error,',
     '.card[data-state="ready"] .bars, .card[data-state="ready"] .error,',
     '.card[data-state="error"] .bars, .card[data-state="error"] .out { display: none; }',
@@ -59,6 +61,7 @@
         '<span class="pair"></span>' +
         '<span class="note"></span>' +
         '<button type="button" data-act="retry">Coba lagi</button>' +
+        '<button type="button" data-act="copy-source">Salin sumber</button>' +
         '<button type="button" data-act="copy">Salin</button>' +
         '<button type="button" data-act="close">Tutup</button>' +
       '</footer>' +
@@ -227,6 +230,11 @@
       if (!act) return;
       if (act === "close") return hide();
       if (act === "retry") return run(currentText);
+      if (act === "copy-source" && currentText) {
+        navigator.clipboard.writeText(currentText)
+          .then(function () { flash("Teks sumber disalin."); })
+          .catch(function () { flash("Browser menolak akses papan klip."); });
+      }
       if (act === "copy" && currentResult) {
         navigator.clipboard.writeText(currentResult.translation)
           .then(function () { flash("Terjemahan disalin."); })
