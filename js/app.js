@@ -16,6 +16,8 @@
   var zoomLabel = document.getElementById("zoom-label");
   var pagePosition = document.getElementById("page-position");
   var pagecount = document.getElementById("pagecount");
+  var previousPage = document.getElementById("previous-page");
+  var nextPage = document.getElementById("next-page");
   var fetcher = document.getElementById("fetcher");
   var urlInput = document.getElementById("url");
 
@@ -73,6 +75,8 @@
     },
     onCurrentPage: function (current, count) {
       pagePosition.textContent = current + " / " + count;
+      previousPage.disabled = current <= 1;
+      nextPage.disabled = current >= count;
     },
     onZoom: function (percent) {
       zoomLabel.textContent = percent + "%";
@@ -82,6 +86,8 @@
   document.querySelectorAll("[data-zoom]").forEach(function (button) {
     button.addEventListener("click", function () { viewer.zoom(Number(button.dataset.zoom)); });
   });
+  previousPage.addEventListener("click", function () { viewer.page(-1); });
+  nextPage.addEventListener("click", function () { viewer.page(1); });
 
   global.addEventListener("keydown", function (event) {
     if (pages.hidden || event.altKey) return;

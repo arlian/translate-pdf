@@ -229,6 +229,11 @@
         if (!doc) return;
         slots[slots.length - 1].node.scrollIntoView({ block: "start", behavior: "smooth" });
       },
+      page: function (step) {
+        if (!doc) return;
+        var index = Math.max(0, Math.min(doc.numPages - 1, currentPage - 1 + step));
+        slots[index].node.scrollIntoView({ block: "start", behavior: "smooth" });
+      },
       reset: function () {
         if (!doc || zoom === 1) return;
         zoom = 1;
