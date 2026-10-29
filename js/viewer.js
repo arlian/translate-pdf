@@ -13,6 +13,7 @@
     var observer = null;
     var zoom = 1;
     var containerWidth = 0;
+    var currentPage = 0;
 
     function viewportFor(page) {
       var style = global.getComputedStyle(container);
@@ -91,11 +92,35 @@
       });
     }
 
+    function updateCurrentPage() {
+      if (!doc || !slots.length) return;
+      var bounds = container.getBoundingClientRect();
+      var mostVisible = 0;
+      var pageNumber = currentPage;
+      slots.forEach(function (slot, index) {
+        var rect = slot.node.getBoundingClientRect();
+        var width = Math.max(0, Math.min(rect.right, bounds.right) - Math.max(rect.left, bounds.left));
+        var height = Math.max(0, Math.min(rect.bottom, bounds.bottom) - Math.max(rect.top, bounds.top));
+        var visible = width * height;
+        if (visible > mostVisible) {
+          mostVisible = visible;
+          pageNumber = index + 1;
+        }
+      });
+      if (pageNumber !== currentPage) {
+        currentPage = pageNumber;
+        ui.onCurrentPage(pageNumber, doc.numPages);
+      }
+    }
+
+    container.addEventListener("scroll", updateCurrentPage);
+
     function watch() {
       if (observer) observer.disconnect();
       observer = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
-          if (entry.isIntersecting) drawPage(Number(entry.target.dataset.index));
+          if (!entry.isIntersecting) return;
+          drawPage(Number(entry.target.dataset.index));
         });
       }, { root: container, rootMargin: "800px 0px" });
       slots.forEach(function (slot) { observer.observe(slot.node); });
@@ -108,6 +133,8 @@
       slots = [];
       return doc.getPage(1).then(function (first) {
         var viewport = viewportFor(first);
+        currentPage = 1;
+        ui.onCurrentPage(1, doc.numPages);
         for (var i = 0; i < doc.numPages; i++) {
           var node = document.createElement("div");
           node.className = "page pending";
@@ -118,6 +145,7 @@
           container.appendChild(node);
           slots.push({ node: node, drawn: false });
         }
+        updateCurrentPage();
         ui.onZoom(Math.round(zoom * 100));
         watch();
         return drawPage(0);

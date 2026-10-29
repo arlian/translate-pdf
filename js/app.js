@@ -14,6 +14,7 @@
   var homeButton = document.getElementById("home");
   var zoomBox = document.getElementById("zoom-controls");
   var zoomLabel = document.getElementById("zoom-label");
+  var pagePosition = document.getElementById("page-position");
   var pagecount = document.getElementById("pagecount");
   var fetcher = document.getElementById("fetcher");
   var urlInput = document.getElementById("url");
@@ -68,6 +69,10 @@
   var viewer = global.TL.createViewer(pages, {
     onPages: function (count) {
       pagecount.textContent = count + " halaman";
+      pagePosition.textContent = count ? "1 / " + count : "";
+    },
+    onCurrentPage: function (current, count) {
+      pagePosition.textContent = current + " / " + count;
     },
     onZoom: function (percent) {
       zoomLabel.textContent = percent + "%";

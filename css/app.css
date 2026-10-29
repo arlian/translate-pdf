@@ -107,6 +107,7 @@ body {
 .zoom button { min-width: 1.7rem; }
 .zoom button:hover { border-color: #47707F; }
 .zoom #zoom-label { min-width: 2.8rem; text-align: center; }
+.page-position { min-width: 3.2rem; text-align: center; color: #DCE6E4; }
 .pagecount { margin-left: .5rem; }
 
 .controls {

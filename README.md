@@ -44,6 +44,9 @@ PDF.js diambil dari cdnjs saat halaman dibuka. Kalau ingin bisa dipakai tanpa in
 sama sekali (selain untuk menerjemahkan), unduh `pdf.min.js` dan `pdf.worker.min.js`
 versi 3.11.174 ke folder ini, lalu ubah dua alamat itu di `index.html` dan `js/app.js`.
 
+Saat membaca, bilah atas menampilkan nomor halaman yang sedang terlihat dan jumlah
+halaman dokumen.
+
 ## Cara kerjanya
 
 **Membaca PDF.** Tiap halaman digambar ke `<canvas>`, lalu di atasnya ditumpuk *text
