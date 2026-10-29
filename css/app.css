@@ -453,3 +453,22 @@ body {
 .ghost:focus-visible,
 .fetcher-row button:focus-visible,
 .samples button:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+
+@media print {
+  body { display: block; height: auto; background: #fff; }
+  .rail { display: none; }
+  #stage { display: block; }
+  #pages {
+    display: block !important;
+    overflow: visible;
+    padding: 0;
+    background: #fff;
+  }
+  .page {
+    margin: 0 auto;
+    box-shadow: none;
+    break-after: page;
+  }
+  .textLayer { visibility: hidden; }
+  .doc-note { display: none; }
+}

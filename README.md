@@ -48,7 +48,7 @@ versi 3.11.174 ke folder ini, lalu ubah dua alamat itu di `index.html` dan `js/a
 
 Saat membaca, bilah atas menampilkan nomor halaman yang sedang terlihat dan jumlah
 halaman dokumen. Masukkan nomor ke kolom halaman untuk langsung melompat ke halaman
-tertentu.
+tertentu. Tombol **Cetak** membuka dialog cetak untuk halaman PDF yang sedang dibuka.
 
 ## Cara kerjanya
 

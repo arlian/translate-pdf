@@ -234,6 +234,9 @@
         var index = Math.max(0, Math.min(doc.numPages - 1, currentPage - 1 + step));
         slots[index].node.scrollIntoView({ block: "start", behavior: "smooth" });
       },
+      prepareForPrint: function () {
+        return Promise.all(slots.map(function (_, index) { return drawPage(index); }));
+      },
       reset: function () {
         if (!doc || zoom === 1) return;
         zoom = 1;

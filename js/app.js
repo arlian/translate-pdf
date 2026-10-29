@@ -13,6 +13,7 @@
   var docname = document.getElementById("docname");
   var homeButton = document.getElementById("home");
   var zoomBox = document.getElementById("zoom-controls");
+  var printButton = document.getElementById("print-pdf");
   var zoomLabel = document.getElementById("zoom-label");
   var pagePosition = document.getElementById("page-position");
   var pageJump = document.getElementById("page-jump");
@@ -91,6 +92,16 @@
   });
   previousPage.addEventListener("click", function () { viewer.page(-1); });
   nextPage.addEventListener("click", function () { viewer.page(1); });
+  printButton.addEventListener("click", function () {
+    printButton.disabled = true;
+    viewer.prepareForPrint().then(function () {
+      printButton.disabled = false;
+      global.print();
+    }, function (err) {
+      printButton.disabled = false;
+      tooltip.flash("PDF gagal disiapkan untuk dicetak: " + err.message);
+    });
+  });
   pageJump.addEventListener("change", function () {
     var page = Number(pageJump.value);
     if (!Number.isInteger(page) || page < 1 || page > Number(pageJump.max)) {
