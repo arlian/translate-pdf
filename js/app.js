@@ -110,7 +110,11 @@
       return;
     }
     if (/^(input|select|textarea)$/i.test(event.target.tagName)) return;
-    if (event.key === "PageUp" || event.key === "PageDown") {
+    if (event.key.toLowerCase() === "g") {
+      event.preventDefault();
+      pageJump.focus();
+      pageJump.select();
+    } else if (event.key === "PageUp" || event.key === "PageDown") {
       event.preventDefault();
       viewer.page(event.key === "PageUp" ? -1 : 1);
     } else if (event.key === "+" || event.key === "=") viewer.zoom(1);
