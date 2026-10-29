@@ -27,6 +27,7 @@ Netlify, Cloudflare Pages). Tidak ada yang perlu dikonfigurasi.
 | `H` | Kembali ke layar awal (pilih dokumen lain) |
 | `Home` | Ke halaman pertama PDF |
 | `End` | Ke halaman terakhir PDF |
+| `Page Up` / `Page Down` | Pindah ke halaman sebelumnya / berikutnya |
 | `Esc` | Tutup kartu terjemahan |
 
 ## Isi

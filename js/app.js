@@ -110,7 +110,10 @@
       return;
     }
     if (/^(input|select|textarea)$/i.test(event.target.tagName)) return;
-    if (event.key === "+" || event.key === "=") viewer.zoom(1);
+    if (event.key === "PageUp" || event.key === "PageDown") {
+      event.preventDefault();
+      viewer.page(event.key === "PageUp" ? -1 : 1);
+    } else if (event.key === "+" || event.key === "=") viewer.zoom(1);
     else if (event.key === "-") viewer.zoom(-1);
     else if (event.key === "Home") viewer.goToPage(1);
     else if (event.key === "End") viewer.goToLastPage();
