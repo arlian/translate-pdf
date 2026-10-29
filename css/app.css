@@ -110,6 +110,17 @@ body {
 .zoom .page-nav { font-size: 1rem; line-height: 1; }
 .zoom #zoom-label { min-width: 2.8rem; text-align: center; }
 .page-position { min-width: 3.2rem; text-align: center; color: #DCE6E4; }
+.zoom .page-jump {
+  width: 3.2rem;
+  padding: .2rem .25rem;
+  font: inherit;
+  font-size: .78rem;
+  color: #E4ECEA;
+  background: var(--rail-field);
+  border: 1px solid var(--rail-edge);
+  border-radius: 3px;
+}
+.zoom .page-jump:focus-visible { outline: 2px solid var(--brass); outline-offset: 1px; }
 .pagecount { margin-left: .5rem; }
 
 .controls {

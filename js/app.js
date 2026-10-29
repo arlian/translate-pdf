@@ -15,6 +15,7 @@
   var zoomBox = document.getElementById("zoom-controls");
   var zoomLabel = document.getElementById("zoom-label");
   var pagePosition = document.getElementById("page-position");
+  var pageJump = document.getElementById("page-jump");
   var pagecount = document.getElementById("pagecount");
   var previousPage = document.getElementById("previous-page");
   var nextPage = document.getElementById("next-page");
@@ -72,9 +73,11 @@
     onPages: function (count) {
       pagecount.textContent = count + " halaman";
       pagePosition.textContent = count ? "1 / " + count : "";
+      pageJump.max = String(count);
     },
     onCurrentPage: function (current, count) {
       pagePosition.textContent = current + " / " + count;
+      pageJump.value = String(current);
       previousPage.disabled = current <= 1;
       nextPage.disabled = current >= count;
     },
@@ -88,6 +91,14 @@
   });
   previousPage.addEventListener("click", function () { viewer.page(-1); });
   nextPage.addEventListener("click", function () { viewer.page(1); });
+  pageJump.addEventListener("change", function () {
+    var page = Number(pageJump.value);
+    if (!Number.isInteger(page) || page < 1 || page > Number(pageJump.max)) {
+      pageJump.value = pagePosition.textContent.split(" / ")[0];
+      return;
+    }
+    viewer.goToPage(page);
+  });
 
   global.addEventListener("keydown", function (event) {
     if (pages.hidden || event.altKey) return;
